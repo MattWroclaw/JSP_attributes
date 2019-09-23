@@ -1,0 +1,21 @@
+Zadanie 1
+---------
+Napisz aplikację wyświetlającą w przeglądarce internetowej tabelę zawierającą wszystkie nagłówki HTTP wraz z ich wartościami
+
+Zadanie 2
+---------
+Rozszerz aplikację o kolejną tabelę zawierającą odebrane ciasteczka. Kolumny tabeli są następujące:
+  - name
+  - value
+
+Zadanie 3
+---------
+Do aplikacji dodaj formularz za pomocą którego będzie można dodać kolejne ciasteczka o wskazanym kluczu, wartości i terminie ważności
+
+Zadanie 4
+---------
+Dodaj kolejną tabelę wyświetlającą zawartość sesji użytkownika
+
+Zadanie 5
+---------
+Dodaj formularz dzięku któremu będzie można umieścić informację (typu String) pod wskazanym kluczem w sesji użytkownika

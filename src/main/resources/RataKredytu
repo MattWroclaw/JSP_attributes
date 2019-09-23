@@ -1,0 +1,48 @@
+Kalkulator kredytowy
+====================
+Zadanie 1
+---------
+Utwórz aplikację obliczajacą koszt kredytu konsumenkiego opierając się o dane wejściowe:
+- wysokość kredytu (pln)
+- roczna stopa procentowa (%)
+- okres kredytu (liczba miesięcy)
+
+Wynik:
+- wysokość raty (pln)
+- całkowity koszt kredytu (zł / RRSO)
+
+**Wzór na stałą ratę kredytu**
+```
+q = 1+(b/m)
+R = A * (q^n) * (q-1)/[(q^n) - 1]
+C = R * n
+```
+```
+m - liczba miesięcy w okresie rozliczeniowym
+A - wysokość kredytu
+b - oprocentowanie w skali roku
+n - ilość rat do spłaty
+R - wysokość raty
+C - całkowita kwota do spłaty
+
+```
+
+Zadanie 2
+---------
+Przedstaw harmonogram płatności w tabeli zawierającej kolumny
+- numer raty
+- wysokość raty
+- termin spłaty
+- wysokość pozostałego kredytu do spłacenia
+
+Zadanie domowe
+--------------
+
+Rozszerz aplikację o możliwość obliczania kosztu leasingu operacyjnego dla samochodu. Danymi wejściowymi są:
+- całkowity koszt pojazdu (pln)
+- opłata wstępna / wkład własny (% wartości lub zł, max. 45%)
+- opłata za wykup samochodu (% wartości lub zł, max. 30%)
+- całkowity koszt leasingu (%)
+- okres leasingu (liczba miesięcy)
+
+Dodaj funkcjonalność zapamiętania harmonogramu płatności w ciasteczkach
