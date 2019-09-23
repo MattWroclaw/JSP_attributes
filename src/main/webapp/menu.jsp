@@ -13,5 +13,9 @@
 <body>
 <a href="index.jsp">Home |</a>
 <a href="kalkulatorKredytowy.jsp">| Kalkulator kredytowy</a>
+<%=
+request.getParameter("someParam")
+%>
+
 </body>
 </html>

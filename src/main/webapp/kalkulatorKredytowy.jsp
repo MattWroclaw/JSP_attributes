@@ -14,7 +14,10 @@
     <title>Kalkulator kredytowy</title>
 </head>
 <body>
-<%@include file="menu.jsp"%>
+<jsp:include page="menu.jsp">
+    <jsp:param name="someParam"
+               value="2"/>
+</jsp:include>
 <h2>Kalkulator kredytowy</h2>
 
 Kalkulator działa w oparciu o wzór: <br>

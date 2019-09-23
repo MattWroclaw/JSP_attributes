@@ -13,7 +13,10 @@
     <title>JSP Atributes</title>
 </head>
 <body>
-<%@ include file="menu.jsp"%>
+<jsp:include page="menu.jsp">
+    <jsp:param name="someParam"
+               value="1"/>
+</jsp:include>
 
 <h2>tabela zawierającą wszystkie nagłówki HTTP wraz z ich wartościami</h2>
 
