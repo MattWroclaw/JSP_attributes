@@ -14,6 +14,7 @@
     <title>Kalkulator kredytowy</title>
 </head>
 <body>
+<%@include file="menu.jsp"%>
 <h2>Kalkulator kredytowy</h2>
 
 Kalkulator działa w oparciu o wzór: <br>
