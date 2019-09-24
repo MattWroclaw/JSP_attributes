@@ -13,6 +13,7 @@
 <body>
 <a href="index.jsp">Home |</a>
 <a href="kalkulatorKredytowy.jsp">| Kalkulator kredytowy</a>
+<a href="prostyKalk.jsp">| Uproszczony kalkulator |</a>
 <%=
 request.getParameter("someParam")
 %>

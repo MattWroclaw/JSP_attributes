@@ -1,7 +1,6 @@
 <%@ page import="kalkulator.KalkulatorKredytowy" %>
-<%@ page import="java.util.Date" %>
 <%@ page import="java.time.LocalDateTime" %>
-<%@ page import="java.text.DecimalFormat" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: mateu
   Date: 23.09.2019
@@ -37,24 +36,24 @@ C - całkowita kwota do spłaty<br>
 <h3>Dane wejściowe</h3>
 <form action="kalkulatorKredytowy.jsp" method="post">
     <label for="wysokoscKredytuID">Kwota kredytu(PLN): </label>
-    <input type="text"  id="wysokoscKredytuID" name="kwotaKredytu"
-           value="<% findPropperValueFmCookie(request.getCookies(), "kwotaKredytu"); %>"><br>
-
+    <input type="text" id="wysokoscKredytuID" name="kwotaKredytu"
+<%--           value="<% findPropperValueFmCookie(request.getCookies(), "kwotaKredytu"); %>"><br>--%>
+                value="10">
     <label for="rspId">Roczna stopa procentowa (np. 2% = 0.02)</label>
     <input type="text" id="rspId" name="stopaProc"
-           value="<% findPropperValueFmCookie(request.getCookies(), "stopaProc");%>"><br>
-
+<%--           value="<% findPropperValueFmCookie(request.getCookies(), "stopaProc");%>"><br>--%>
+        value=".05">
     <label for="ileMiesId">Okres płaty kredytu (w miesiącach)</label>
     <input type="text" id="ileMiesId" name="miesiace"
-           value ="<%  findPropperValueFmCookie(request.getCookies(),"miesiace" ); %>"><br>
-
+<%--           value="<%  findPropperValueFmCookie(request.getCookies(),"miesiace" ); %>"><br>--%>
+                value="12">
     <input type="submit" value="Zatwierdź">
 </form>
 
 <%!
-    private String findPropperValueFmCookie( Cookie[] cookies, String name){
+    private String findPropperValueFmCookie(Cookie[] cookies, String name) {
         for (Cookie cook : cookies) {
-            if (cook.getName().equals(name)){
+            if (cook.getName().equals(name)) {
                 return cook.getValue();
             }
         }
@@ -67,51 +66,62 @@ C - całkowita kwota do spłaty<br>
     String b = request.getParameter("stopaProc");
     String m = request.getParameter("miesiace");
 
-    if (A != null && b != null && m != null){
+    if (A != null && b != null && m != null) {
         Cookie cKredyt = new Cookie("kwotaKredytu", A);
         response.addCookie(cKredyt);
 
-        Cookie stopa = new Cookie("stopaProc",b);
+        Cookie stopa = new Cookie("stopaProc", b);
         response.addCookie(stopa);
 
         Cookie ileMies = new Cookie("miesiace", m);
         response.addCookie(ileMies);
     }
 
-<%--////    out.print(A);--%>
-<%--    double           d_A = Double.valueOf(A);--%>
-<%--//    out.print(d_A);--%>
-<%--    double            d_b = Double.parseDouble(b);--%>
-<%--//    out.print(d_b);--%>
-<%--    double             d_m = Double.parseDouble(m);--%>
-<%--    KalkulatorKredytowy kk = new KalkulatorKredytowy();--%>
-<%--    double q = kk.q(d_b, d_m);--%>
-<%--    double R = kk.R(d_A, q, d_m);--%>
-<%--    double C =kk.C(R, d_m);--%>
-<%--%>--%>
-<%--<h3>Dane wyjściowe:</h3>--%>
-<%--<%--%>
-<%--    out.print("Kwota kredytu(PLN): "+A+"<br>");--%>
-<%--    out.print("Roczna stopa procentowa "+b+"<br>");--%>
-<%--    out.print("Okres płaty kredytu (w miesiącach) "+m+"<br>");--%>
-<%--    out.print("Pomocnicza wartość q= "+Math.round(q)+"<br>");--%>
-<%--    out.print("Wyskokość raty (wartość R)= "+Math.round(R)+"<br>");--%>
-<%--    out.print("Całkowita kwota do spłaty (wartość R)= "+Math.round(C)+"<br>");--%>
-<%--%>--%>
-<%--<h3>Harmonogram płatności</h3>--%>
-<%--<%--%>
-<%--    LocalDateTime dzis = LocalDateTime.now();--%>
-<%--    out.print(dzis.toLocalDate());--%>
-<%--    double doSplacenia = 0;--%>
-<%--    int licznaMiesiecy =  Integer.valueOf(m);--%>
-<%--        out.print("<table>");--%>
-<%--    out.print("<th>Nmer raty |</th><th>Wysokość raty |</th><th>Termin spłaty |</th><th>Wysokość pozostałego kapitału do spłacenia |</th>");--%>
-<%--    for (int i=1; i<=licznaMiesiecy; i++){--%>
-<%--        doSplacenia = (C - i*R);--%>
-<%--        out.print("<tr>");--%>
-<%--        out.print("<td> |"+i+"|</td>"+"<td>|"+R+"|</td>"+"<td>|"+dzis.plusMonths(i).toLocalDate()+"|</td>"+"<td>|"+doSplacenia+"</td>");--%>
-<%--        out.print("</tr>");--%>
-<%--    }--%>
-<%--%>--%>
+    double q =0;
+    double R =0;
+    double C =0;
+
+    try {
+
+    double d_A = Double.valueOf(A);
+    double d_b = Double.parseDouble(b);
+    double d_m = Double.parseDouble(m);
+    KalkulatorKredytowy kk = new KalkulatorKredytowy();
+     q = kk.q(d_b, d_m);
+     R = kk.R(d_A, q, d_m);
+     C = kk.C(R, d_m);
+    } catch (Exception e){
+        out.print("Uuuuuu.. coś się tutaj zepsuło :( <br> <h1>Przeładuj stronę!</h1>");
+    }
+%>
+<h3>Dane wyjściowe:</h3>
+<%
+    out.print("Kwota kredytu(PLN): " + A + "<br>");
+    out.print("Roczna stopa procentowa " + b + "<br>");
+    out.print("Okres płaty kredytu (w miesiącach) " + m + "<br>");
+    out.print("Pomocnicza wartość q= " + Math.round(q) + "<br>");
+    out.print("Wyskokość raty (wartość R)= " + Math.round(R) + "<br>");
+    out.print("Całkowita kwota do spłaty (wartość R)= " + Math.round(C) + "<br>");
+%>
+<h3>Harmonogram płatności</h3>
+<%
+    try {
+
+    LocalDateTime dzis = LocalDateTime.now();
+    out.print(dzis.toLocalDate());
+    double doSplacenia = 0;
+    int licznaMiesiecy = Integer.valueOf(m);
+    out.print("<table>");
+    out.print("<th>Nmer raty |</th><th>Wysokość raty |</th><th>Termin spłaty |</th><th>Wysokość pozostałego kapitału do spłacenia |</th>");
+    for (int i = 1; i <= licznaMiesiecy; i++) {
+        doSplacenia = (C - i * R);
+        out.print("<tr>");
+        out.print("<td> |" + i + "|</td>" + "<td>|" + R + "|</td>" + "<td>|" + dzis.plusMonths(i).toLocalDate() + "|</td>" + "<td>|" + doSplacenia + "</td>");
+        out.print("</tr>");
+    }
+    }catch (Exception e){
+        out.print("Znów coś nie tak..<br> <h1>Przeładuj stronę!</h1>");
+    }
+%>
 </body>
 </html>
