@@ -96,11 +96,7 @@ C - całkowita kwota do spłaty<br>
         out.print("<h3>Żeby uzyskać harmonogram spłaty" +
                 "wypełnij formularz i naciśnij <em>'Zatwierdź'</em></h3>");
     }
-
 %>
-
-
-
 
 </body>
 </html>
