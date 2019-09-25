@@ -66,10 +66,14 @@ C - całkowita kwota do spłaty<br>
     String b = request.getParameter("stopaProc");
     String m = request.getParameter("miesiace");
 
-    boolean czySaDaneZFormularza = A != null && b != null && m != null;
-    boolean czyDaneSaPoprawne = (A.matches("^[1-9]+[0-9]{0,}([.][0-9]){0,1}[0-9]+$"))
-            && (b.matches("^[0]*[.][\\d]+$"))
-            && (m.matches("^[1-9][\\d]*$"));
+    boolean czySaDaneZFormularza = (A != null && b != null && m != null);
+    boolean czyDaneSaPoprawne = false;
+    if (czySaDaneZFormularza) {
+        czyDaneSaPoprawne =
+                (A.matches("^[1-9]+[0-9]{0,}([.][0-9]){0,1}[0-9]+$"))
+                        && (b.matches("^[0]*[.][\\d]+$"))
+                        && (m.matches("^[1-9][\\d]*$"));
+    }
 
     if (czySaDaneZFormularza) {
         Cookie cKredyt = new Cookie("kwotaKredytu", A);
@@ -87,7 +91,6 @@ C - całkowita kwota do spłaty<br>
     double C = 0;
     if (czySaDaneZFormularza) {
         if (czyDaneSaPoprawne) {
-
             double d_A = Double.valueOf(A);
             double d_b = Double.parseDouble(b);
             double d_m = Double.parseDouble(m);
@@ -113,7 +116,6 @@ C - całkowita kwota do spłaty<br>
 %>
 <h3>Harmonogram płatności</h3>
 <%
-
     LocalDateTime dzis = LocalDateTime.now();
     out.print(dzis.toLocalDate());
     if (czyDaneSaPoprawne) {
