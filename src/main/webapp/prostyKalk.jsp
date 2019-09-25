@@ -1,4 +1,5 @@
-<%@ page import="kalkulator.KalkulatorKredytowy" %><%--
+<%@ page import="kalkulator.KalkulatorKredytowy" %>
+<%@ page import="java.time.LocalDateTime" %><%--
   Created by IntelliJ IDEA.
   User: mateu
   Date: 24.09.2019
@@ -69,7 +70,7 @@ C - całkowita kwota do spłaty<br>
          C = kk.C(R, dm);
     }
     }catch (Exception e){
-        out.print("Uuu.... Coś poszło nie tak.. ");
+        out.print("Uuu.... Coś poszło nie tak..<br> ");
     }
     out.print("Kwota kredytu(PLN): " + A + "<br>");
     out.print("Roczna stopa procentowa " + b + "<br>");
@@ -77,6 +78,24 @@ C - całkowita kwota do spłaty<br>
     out.print("Pomocnicza wartość q= " + Math.round(q) + "<br>");
     out.print("Wyskokość raty (wartość R)= " + Math.round(R) + "<br>");
     out.print("Całkowita kwota do spłaty (wartość R)= " + Math.round(C) + "<br>");
+
+    LocalDateTime dzis = LocalDateTime.now();
+    double doSplacenia = 0;
+
+    try {
+    int licznaMiesiecy = Integer.valueOf(m);
+    out.print("<table>");
+    out.print("<th>Nmer raty |</th><th>Wysokość raty |</th><th>Termin spłaty |</th><th>Wysokość pozostałego kapitału do spłacenia |</th>");
+    for (int i = 1; i <= licznaMiesiecy; i++) {
+        doSplacenia = Math.round((C - i * R)*100.0)/100.0;
+        out.print("<tr>");
+        out.print("<td> |" + i + "|</td>" + "<td>|" + Math.round(R*100.0)/100.0 + "|</td>" + "<td>|" + dzis.plusMonths(i).toLocalDate() + "|</td>" + "<td>|" + doSplacenia + "</td>");
+        out.print("</tr>");
+    }
+    }catch (Exception e){
+        out.print("<h3>Żeby uzyskać harmonogram spłaty" +
+                "wypełnij formularz i naciśnij <em>'Zatwierdź'</em></h3>");
+    }
 
 %>
 

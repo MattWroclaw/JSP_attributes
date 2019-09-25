@@ -66,7 +66,9 @@ C - całkowita kwota do spłaty<br>
     String b = request.getParameter("stopaProc");
     String m = request.getParameter("miesiace");
 
-    if (A != null && b != null && m != null) {
+    boolean czySaDaneZFormularza = A != null && b != null && m != null;
+
+    if (czySaDaneZFormularza) {
         Cookie cKredyt = new Cookie("kwotaKredytu", A);
         response.addCookie(cKredyt);
 
@@ -80,18 +82,16 @@ C - całkowita kwota do spłaty<br>
     double q =0;
     double R =0;
     double C =0;
-
-    try {
-
-    double d_A = Double.valueOf(A);
-    double d_b = Double.parseDouble(b);
-    double d_m = Double.parseDouble(m);
-    KalkulatorKredytowy kk = new KalkulatorKredytowy();
-     q = kk.q(d_b, d_m);
-     R = kk.R(d_A, q, d_m);
-     C = kk.C(R, d_m);
-    } catch (Exception e){
-        out.print("Uuuuuu.. coś się tutaj zepsuło :( <br> <h1>Przeładuj stronę!</h1>");
+    if (czySaDaneZFormularza){
+        double d_A = Double.valueOf(A);
+        double d_b = Double.parseDouble(b);
+        double d_m = Double.parseDouble(m);
+        KalkulatorKredytowy kk = new KalkulatorKredytowy();
+        q = kk.q(d_b, d_m);
+        R = kk.R(d_A, q, d_m);
+        C = kk.C(R, d_m);
+    } else {
+        out.print(  "<h3>Wypełnij formularz i naciśnij <em>'Zatwierdź'</em> </h3>");
     }
 %>
 <h3>Dane wyjściowe:</h3>
@@ -99,28 +99,29 @@ C - całkowita kwota do spłaty<br>
     out.print("Kwota kredytu(PLN): " + A + "<br>");
     out.print("Roczna stopa procentowa " + b + "<br>");
     out.print("Okres płaty kredytu (w miesiącach) " + m + "<br>");
-    out.print("Pomocnicza wartość q= " + Math.round(q) + "<br>");
-    out.print("Wyskokość raty (wartość R)= " + Math.round(R) + "<br>");
-    out.print("Całkowita kwota do spłaty (wartość R)= " + Math.round(C) + "<br>");
+    out.print("Pomocnicza wartość q= " +q  + "<br>");
+    out.print("Wyskokość raty (wartość R)= " +R + "<br>");
+    out.print("Całkowita kwota do spłaty (wartość R)= " + C + "<br>");
 %>
 <h3>Harmonogram płatności</h3>
 <%
-    try {
 
     LocalDateTime dzis = LocalDateTime.now();
     out.print(dzis.toLocalDate());
-    double doSplacenia = 0;
-    int licznaMiesiecy = Integer.valueOf(m);
-    out.print("<table>");
-    out.print("<th>Nmer raty |</th><th>Wysokość raty |</th><th>Termin spłaty |</th><th>Wysokość pozostałego kapitału do spłacenia |</th>");
-    for (int i = 1; i <= licznaMiesiecy; i++) {
-        doSplacenia = (C - i * R);
-        out.print("<tr>");
-        out.print("<td> |" + i + "|</td>" + "<td>|" + R + "|</td>" + "<td>|" + dzis.plusMonths(i).toLocalDate() + "|</td>" + "<td>|" + doSplacenia + "</td>");
-        out.print("</tr>");
-    }
-    }catch (Exception e){
-        out.print("Znów coś nie tak..<br> <h1>Przeładuj stronę!</h1>");
+    if(czySaDaneZFormularza) {
+        double doSplacenia = 0;
+        int licznaMiesiecy = Integer.valueOf(m);
+        out.print("<table>");
+        out.print("<th>Nmer raty |</th><th>Wysokość raty |</th><th>Termin spłaty |</th><th>Wysokość pozostałego kapitału do spłacenia |</th>");
+        for (int i = 1; i <= licznaMiesiecy; i++) {
+            doSplacenia = Math.round((C - i * R)*100.0)/100.0;
+            out.print("<tr>");
+            out.print("<td> |" + i + "|</td>" + "<td>|" + Math.round(R*1000.0)/1000.0+ "|</td>" + "<td>|" + dzis.plusMonths(i).toLocalDate() + "|</td>" + "<td>|" + doSplacenia + "</td>");
+            out.print("</tr>");
+        }
+    } else {
+        out.print("<h3>Żeby uzyskać harmonogram spłaty" +
+                "wypełnij formularz i naciśnij <em>'Zatwierdź'</em></h3> ");
     }
 %>
 </body>
